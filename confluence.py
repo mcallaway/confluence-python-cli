@@ -349,7 +349,7 @@ def Actions(token,xml_server,args,content):
 
         elif args.action == "getpagecontent":
             get_page = ConfluencePage(token,xml_server,args.name,args.spacekey,content).get_content()
-            print(get_page)
+            print(get_page.encode('utf-8'))
 
         elif args.action == "getpagesummary":
             page = ConfluencePage(token,xml_server,args.name,args.spacekey,content).get()
