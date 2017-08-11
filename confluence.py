@@ -208,7 +208,7 @@ def Parser():
     parser_addpage = subparsers.add_parser('addpage', help='Add a page')
     parser_addpage.add_argument("-n", "--name", help="(New) page name", required=True)
     parser_addpage.add_argument("-P", "--parentpage", help="Parent page ID", default="0")
-    parser_addpage.add_argument("-l", "--label", help="Page label", default="created_via_api")
+    parser_addpage.add_argument("-l", "--label", help="Page label", default="")
     parser_addpage.add_argument("-s", "--spacekey", help="Space Key", required=True)
     files_addpage = parser_addpage.add_mutually_exclusive_group()
     files_addpage.add_argument("-f", "--file", help="Read content from this file")
@@ -225,7 +225,7 @@ def Parser():
     parser_updatepage.add_argument("-n", "--name", help="Page name", required=True)
     parser_updatepage.add_argument("-s", "--spacekey", help="Space Key", required=True)
     parser_updatepage.add_argument("-P", "--parentpage", help="Parent page ID", default="0")
-    parser_updatepage.add_argument("-l", "--label", help="Page label", default="created_via_api")
+    parser_updatepage.add_argument("-l", "--label", help="Page label", default="")
     files_updatepage = parser_updatepage.add_mutually_exclusive_group()
     files_updatepage.add_argument("-f", "--file", help="Read content from this file")
     files_updatepage.add_argument("-S", "--stdin", help="Read content from STDIN", action="store_true")
@@ -343,7 +343,8 @@ def Actions(token,xml_server,args,content):
         elif args.action == "updatepage":
             update_page = ConfluencePage(token,xml_server,args.name,args.spacekey,content,args.parentpage,label=args.label)
             update_page.update(content,args.parentpage)
-            update_page.set_label()
+            if args.label:
+              update_page.set_label()
             print(update_page.get()['url'])
 
         elif args.action == "getpagecontent":
